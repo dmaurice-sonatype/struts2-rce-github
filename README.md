@@ -67,3 +67,4 @@ locale for your server is different, then rename package.properties to package_e
 and create a new package.properties with proper values for your default locale.
 ```
 # struts2-rce-github
+# struts2-rce-github
