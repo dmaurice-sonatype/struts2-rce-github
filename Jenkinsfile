@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Build') {
             tools {
-                jdk 'JDK-8'
+                jdk '1.8'
             }
             steps {
                 sh "./mvnw -Dmaven.test.failure.ignore clean install"
@@ -32,7 +32,7 @@ pipeline {
                                 ]
                             ]
                         ],
-                        iqApplication: "struts2-rce-github-lw", iqStage: 'build', jobCredentialsId: '')
+                        iqApplication: "struts2-rce-github", iqStage: 'build', jobCredentialsId: '')
                     } catch (err) {
                         echo "IQ Policy evaluation failed: ${err.message}"
                         policyEvaluation = err.policyEvaluation
@@ -47,12 +47,12 @@ pipeline {
             script {
                 // Create TAG
                 def iqScanUrl = policyEvaluation?.applicationCompositionReportUrl ?: 'N/A'
-                createTag nexusInstanceId: 'nxrm3', tagAttributesJson: """{
+                createTag nexusInstanceId: 'Nexus', tagAttributesJson: """{
                     \"IQScan\": \"${iqScanUrl}\",
                     \"JenkinsBuild\": \"${BUILD_URL}\"
                 }""", tagName: "IQ-Policy-Evaluation_${currentBuild.number}"
                 // Publish
-                nexusPublisher nexusInstanceId: 'nxrm3', nexusRepositoryId: 'maven-releases', packages: [[
+                nexusPublisher nexusInstanceId: 'Nexus', nexusRepositoryId: 'maven-uat-hosted', packages: [[
                     $class: 'MavenPackage',
                     mavenAssetList: [[classifier: '', extension: '', filePath: './target/struts2-rest-showcase.war']],
                     mavenCoordinate: [artifactId: 'struts2-rest-showcase', groupId: 'org.apache.struts', packaging: 'war', version: '2.5.10']
