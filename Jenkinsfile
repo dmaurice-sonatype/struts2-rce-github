@@ -12,6 +12,7 @@ pipeline {
         stage('Build') {
             tools {
                 jdk '1.8'
+                maven 'Maven'
             }
             steps {
                 sh "mvn clean package -DskipTests"
