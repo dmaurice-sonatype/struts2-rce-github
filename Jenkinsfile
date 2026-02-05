@@ -58,6 +58,9 @@ pipeline {
                     mavenAssetList: [[classifier: '', extension: '', filePath: './target/struts2-rest-showcase.war']],
                     mavenCoordinate: [artifactId: 'struts2-rest-showcase', groupId: 'org.apache.struts', packaging: 'war', version: '2.5.10']
                 ]], tagName: "IQ-Policy-Evaluation_${currentBuild.number}"
+                // Staging and Promote
+                moveComponents destination: 'maven-prod-hosted', nexusInstanceId: 'Nexus', tagName: 'IQ-Policy-Evaluation_${currentBuild.number}'
+            
             }
         }
     }
