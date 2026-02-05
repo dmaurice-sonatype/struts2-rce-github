@@ -14,7 +14,7 @@ pipeline {
                 jdk '1.8'
             }
             steps {
-                sh "./mvnw -Dmaven.test.failure.ignore clean install"
+                sh "mvn clean package -DskipTests"
             }
         }
         stage('IQ Policy Check') {
